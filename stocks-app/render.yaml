@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: stocks-backend
+    env: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: backend/Dockerfile
+    healthCheckPath: /ping
+    envVars:
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: stocks-db
+          property: host
+      - key: POSTGRES_DB
+        value: stocks
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: stocks-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: stocks-db
+          property: password
+
+  - type: web
+    name: stocks-frontend
+    env: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: frontend/Dockerfile
+
+databases:
+  - name: stocks-db
+    plan: starter
+    databaseName: stocks
+    user: stocks_user
