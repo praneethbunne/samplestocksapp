@@ -3,7 +3,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # 1. Copy dependency manifests *only*
-COPY stocks-app/backend/package*.json ./
+COPY package*.json ./
 
 
 # 2. Install production deps
@@ -13,9 +13,7 @@ RUN npm install --omit=dev          # ← or `npm ci --omit=dev` if lock‑file 
 
 # 3. Copy the rest of the source
 COPY stocks-app/backend . ./
-WORKDIR /app/stocks-app/frontend 
-COPY stocks-app/frontend/package*.json ./
-RUN npm install --omit-dev` 
+
 # 4. Compile NestJS
 RUN npm run build
 
